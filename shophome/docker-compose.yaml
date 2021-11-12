@@ -1,0 +1,17 @@
+# version: '3'
+# services:
+# shop-home:
+#     build: ./ShopHome
+#     image: shop-home
+#     container_name: shop-home
+#     ports:
+#         - "8080:80"
+version: '3'
+
+services:
+  shop-home:
+    image: shophome
+    build: ./ShopHome
+    container_name: shophome
+    ports:
+        - "8080:80"

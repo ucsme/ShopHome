@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shophome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shophome
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: shophome
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: shophome
+        image: mykubeacrreg.azurecr.io/shophome:V1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 250m
+          limits:
+            memory: 128Mi
+            cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shophome
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: shophome
